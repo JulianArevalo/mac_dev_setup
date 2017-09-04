@@ -1,0 +1,49 @@
+#!/bin/bash -eu
+
+installPackagesDeps() {
+
+    echo "${FUNCNAME[0]}"
+
+    local os; os="$(uname)"
+
+    if ! command -v ansible > /dev/null; then
+        if [[ "$os" == "Linux" ]]; then
+            sudo apt-get install software-properties-common
+            sudo apt-add-repository ppa:ansible/ansible
+            sudo apt-get update
+            sudo apt-get install ansible
+        elif [[ "$os" == "Darwin" ]]; then
+            echo "WIP: Not tested yet"
+            sudo easy_install pip
+            sudo pip install ansible
+        else
+            echo "Error: $os is not supported!"
+        fi
+    fi
+}
+
+checkAnsibleInstall() {
+    local status;
+
+    echo "${FUNCNAME[0]}"
+
+    ansible localhost -m ping 2>&1 | grep -q 'SUCCESS'
+    status=$?
+    if [[ "$status" != "0" ]]; then
+        printf "Ansible is not installed\n"
+    fi
+}
+
+cleanup () {
+    /usr/bin/yes | sudo pip uninstall ansible
+}
+
+main() {
+    installPackagesDeps
+    checkAnsibleInstall
+    ansible-galaxy install -r requirements.yml --roles-path=roles/
+    ansible-playbook main.yml -i "localhost," -c local --ask-pass -K
+    #cleanup
+}
+
+main "$@"
