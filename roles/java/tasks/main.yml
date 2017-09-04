@@ -1,0 +1,9 @@
+---
+  # Java special setup due to issues via homebrew module
+
+  - name: Create askpass script
+    shell: printf "#!/bin/sh\necho {{SUDO_PASS}}\n" > {{temp_path}}/askpass &&  chmod u+x {{temp_path}}/askpass && export SUDO_ASKPASS={{temp_path}}/askpass
+    register: askpass
+
+  - name: Install java cask
+    shell: export SUDO_ASKPASS={{temp_path}}/askpass && export PATH=/usr/local/bin:$PATH && brew cask install java

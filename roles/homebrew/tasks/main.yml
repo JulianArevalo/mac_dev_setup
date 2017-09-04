@@ -1,0 +1,34 @@
+---
+- name: Check if Homebrew is already installed
+  stat:
+    path: /usr/local/Homebrew
+  register: homebrew_dir
+
+- name: Check if Homebrew is already installed
+  stat:
+    path: /usr/local/bin/brew
+  register: brew_binary
+
+- name: Check if a Brewfile exists
+  stat:
+    path: ~/pathtotheBrewfile
+  register: brewfile
+
+- name: Install taps
+  homebrew_tap: "tap={{item}} state=present"
+  with_items: "{{taps}}"
+  when: brew_binary.stat.exists and not brewfile.stat.exists
+
+- name: Install casks
+  homebrew_cask:
+    name: "{{item}}"
+    state: present
+  with_items: "{{casks}}"
+  when: brew_binary.stat.exists and not brewfile.stat.exists
+
+- name: Install packages
+  homebrew:
+    name: "{{item}}"
+    state: present
+  with_items: "{{packages}}"
+  when: brew_binary.stat.exists and not brewfile.stat.exists

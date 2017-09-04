@@ -1,0 +1,12 @@
+---
+
+  - name: Create ~/dev folder structure if it doesn't exist
+    file:
+      path: "~/dev/{{item}}"
+      state: directory
+      mode: 0755
+      recurse: yes
+    with_items:
+        - repo
+        - tools
+        - work

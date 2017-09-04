@@ -1,0 +1,45 @@
+taps:
+  - caskroom/cask
+  - caskroom/versions
+
+packages:
+  - ack
+  - ansible
+  - astyle
+  - bash-completion
+  - coreutils
+  - cscope
+  - ctags
+  - findutils
+  - git
+  - gnu-sed
+  - graphviz
+  - htop
+  - imagemagick
+  - mas
+  - p7zip
+  - packer
+  - plantuml
+  - pstree
+  - reattach-to-user-namespace
+  - shellcheck
+  - subversion
+  - tmux
+  - tree
+  - vim
+  - wget
+
+casks:
+  - java
+  - fork
+  - gitkraken
+  - gitx
+  - kdiff3
+  - macdown
+  - macvim
+  - meld
+  - p4merge
+  - sourcetree
+  - vagrant
+  - virtualbox
+  - virtualbox-extension-pack

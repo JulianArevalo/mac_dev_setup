@@ -1,0 +1,22 @@
+---
+# Terminal setup
+
+  # Solarized theme for macOS terminal
+  # https://github.com/tomislav/osx-terminal.app-colors-solarized 
+
+  - name: Get current Terminal profile.
+    shell: defaults read com.apple.terminal 'Default Window Settings'
+    register: profile
+    changed_when: false
+
+  - name: Retrieve Solarized profile for terminal.
+    get_url:
+      url: https://raw.githubusercontent.com/tomislav/osx-terminal.app-colors-solarized/master/Solarized%20Dark.terminal
+      dest: "{{temp_path}}/solarized_dark.terminal"
+      validate_certs: no
+    when: temp_path is defined and ('Solarized Dark' not in profile.stdout)
+
+  - name: Import Solarized profile.
+    shell: open {{temp_path}}/solarized_dark.terminal 
+    #changed_when: false
+    when: temp_path is defined and ('Solarized Dark' not in profile.stdout)

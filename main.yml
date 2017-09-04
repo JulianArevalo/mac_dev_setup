@@ -1,0 +1,49 @@
+---
+# Playbook to setup a new mac machine with my development environment
+
+- hosts: all
+
+  vars_prompt:
+    - name: "SUDO_PASS"
+      prompt: "Please enter your sudo password"
+      private: yes
+
+  pre_tasks:
+    - name: Create temp folder.
+      tempfile:
+        state: directory
+      register: temp
+      tags: ['setup']
+
+  roles:
+    # Create my folder structure.
+    - role: dev_tree
+      tags: ['dev_tree']
+    # Due to issue https://github.com/geerlingguy/mac-dev-playbook/issues/53, do not install any packages here.
+    # Packages will be installed from roles/homebrew once roles/java will be executed because some casks depends on java.
+    - role: geerlingguy.homebrew
+      homebrew_upgrade_all_packages: no
+      homebrew_taps: []
+      homebrew_installed_packages: []
+      homebrew_cask_apps: []
+      homebrew_use_brewfile: no
+      when: ansible_os_family == "Darwin"
+      tags: ['geerlingguy.homebrew']
+    # Workaround to insrtall java without be prompted for password.
+    - role: java
+      temp_path: "{{temp.path}}"
+      tags: ['java']
+    - role: homebrew
+      tags: ['brew']
+    - role: terminal
+      temp_path: "{{temp.path}}"
+      tags: ['terminal']
+
+  post_tasks:
+    - name: Clean up temp folder.
+      file:
+        path: "{{temp.path}}"
+        state: absent
+      when: temp is defined and temp.path is defined
+      tags: ['teardown']
+
