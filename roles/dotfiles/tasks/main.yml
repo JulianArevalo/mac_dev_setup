@@ -1,0 +1,19 @@
+---
+# Role to install my various dot files.
+  - name: Check if already retrieved
+    stat:
+      path: "~/dev/repo/git/JulianArevalo/my_dot_files"
+    register: repo
+
+  - name: Retrieve dot files repo
+    git:
+      repo: https://github.com/JulianArevalo/my_dot_files.git
+      dest: "~/dev/repo/git/JulianArevalo/my_dot_files"
+      accept_hostkey: yes
+    when: repo.stat.exists == false
+
+  - name: Install dotfiles
+    shell: ~/dev/repo/git/JulianArevalo/my_dot_files/bootstrap
+
+  - name: Setup macOS various settings
+    shell: ~/dev/repo/git/JulianArevalo/my_dot_files/.macos

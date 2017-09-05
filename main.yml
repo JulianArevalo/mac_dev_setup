@@ -38,6 +38,8 @@
     - role: terminal
       temp_path: "{{temp.path}}"
       tags: ['terminal']
+    - role: dotfiles
+      tags: ['dotfiles']
 
   post_tasks:
     - name: Clean up temp folder.
