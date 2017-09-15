@@ -40,7 +40,7 @@
       temp_path: "{{temp.path}}"
       tags: ['java']
     - role: homebrew
-      tags: ['brew']
+      tags: ['homebrew']
     - role: terminal
       temp_path: "{{temp.path}}"
       tags: ['terminal']
