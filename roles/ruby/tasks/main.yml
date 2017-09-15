@@ -1,0 +1,10 @@
+- name: Install latest Ruby gems.
+  gem:
+    name: "{{item.name | default(omit)}}"
+    state: present
+    version: "{{item.version | default(omit)}}"
+    user_install: no
+    executable: /usr/local/bin/gem
+  with_items: "{{ gem_packages }}"
+  when: item.file is not defined
+  become: yes
