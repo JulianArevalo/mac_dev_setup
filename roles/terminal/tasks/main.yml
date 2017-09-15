@@ -8,6 +8,7 @@
     shell: defaults read com.apple.terminal 'Default Window Settings'
     register: profile
     changed_when: false
+    ignore_errors: True
 
   - name: Retrieve Solarized profile for terminal.
     get_url:
