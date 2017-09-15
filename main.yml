@@ -7,6 +7,12 @@
     - name: "SUDO_PASS"
       prompt: "Please enter your sudo password"
       private: yes
+    - name: "APPLE_ID_USER"
+      prompt: "Please enter your user name for your Apple ID"
+      private: no
+    - name: "APPLE_ID_PASS"
+      prompt: "Please enter your password for Apple ID {{APPLE_ID_USER}}"
+      private: yes
 
   pre_tasks:
     - name: Create temp folder.
@@ -42,6 +48,8 @@
       tags: ['dotfiles']
     - role: ruby
       tags: ['ruby']
+    - role: xcode
+      tags: ['xcode']
 
   post_tasks:
     - name: Clean up temp folder.
