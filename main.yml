@@ -37,7 +37,6 @@
       tags: ['geerlingguy.homebrew']
     # Workaround to insrtall java without be prompted for password.
     - role: java
-      temp_path: "{{temp.path}}"
       tags: ['java']
     - role: homebrew
       tags: ['homebrew']
